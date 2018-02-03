@@ -3,7 +3,7 @@ install: true
 services:
   - docker
 script:
-  - docker build -t "bluestreak/php:$TRAVIS_BUILD_NUMBER" .
+  - docker build -t "bluestreak/php:$TRAVIS_BUILD_NUMBER" -t "bluestreak/php:latest" .
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
