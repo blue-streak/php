@@ -1,12 +1,24 @@
 sudo: required
-install: true
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+language: node_js
+node_js:
+  - "8"
+
 services:
   - docker
+
 script:
-  - docker build -t "bluestreak/php:$TRAVIS_BUILD_NUMBER" -t "bluestreak/php:latest" .
+  - npm test
+
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-    docker push "bluestreak/php:$TRAVIS_BUILD_NUMBER";
-    docker push "bluestreak/php:latest";
-    fi
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - export REPO=bluestreak/php
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO
