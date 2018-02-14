@@ -11,12 +11,15 @@ bin/magento setup:install \
     --db-password=$MYSQL_PASSWORD \
     --base-url=$MAGE_HOST \
     --base-url-secure=$MAGE_HOST \
-    --admin-firstname="$MAGE_ADMIN_FIRSTNAME" \
-    --admin-lastname="$MAGE_ADMIN_LASTNAME" \
-    --admin-email=$MAGE_ADMIN_EMAIL \
-    --admin-user=$MAGE_ADMIN_USER \
-    --admin-password=$MAGE_ADMIN_PASS \
-    --backend-frontname=$MAGE_BACKEND_FRONTNAME \
+    --admin-firstname="${MAGE_ADMIN_FIRSTNAME:-Joe}" \
+    --admin-lastname="${MAGE_ADMIN_LASTNAME:-Bloggs}" \
+    --admin-email=${MAGE_ADMIN_EMAIL:-magento@wearejh.com} \
+    --admin-user=${MAGE_ADMIN_USER:-admin} \
+    --admin-password=${MAGE_ADMIN_PASS:-password123} \
+    --backend-frontname=${MAGE_BACKEND_FRONTNAME:-admin} \
+    --language=${MAGE_LANG:-en_GB} \
+    --currency=${MAGE_CURRENCY:-GBP} \
+    --timezone=${MAGE_TIMEZONE:-Europe/London} \
     --use-secure=1 \
     --use-secure-admin=1 \
     --cleanup-database -vvv \
